@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit test for simple App.
  */
-public class AppTest
+public class BankAcountTest
 {
 
     BankAccount bankAccount;
