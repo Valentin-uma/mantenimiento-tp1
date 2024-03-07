@@ -25,7 +25,7 @@ public class AppTest
 
     @ParameterizedTest
     @ValueSource(ints = {100,400,1000})
-    public void withdrawTestPossible(int amount){
+    public void withdrawPossibleTest(int amount){
 
         int balanceBeforeWithdraw = bankAccount.getBalance();
 
@@ -36,7 +36,7 @@ public class AppTest
 
     @ParameterizedTest
     @ValueSource(ints = {7000,9999,1001})
-    public void withdrawTestNotPossibleBecauseNoEnoughMoney(int amount){
+    public void withdrawNotPossibleBecauseNoEnoughMoneyTest(int amount){
 
         int balanceBeforeWithdraw = bankAccount.getBalance();
 
@@ -47,7 +47,7 @@ public class AppTest
 
     @ParameterizedTest
     @ValueSource(ints = {-7000,-1,-1001})
-    public void withdrawTestNotPossibleAmountNegative(int amount){
+    public void withdrawNotPossibleAmountNegativeTest(int amount){
 
         int balanceBeforeWithdraw = bankAccount.getBalance();
 
@@ -62,7 +62,7 @@ public class AppTest
 
     @ParameterizedTest
     @ValueSource(ints = {100,400,1000})
-    public void depositTestPossible(int amount){
+    public void depositPossibleTest(int amount){
 
         int balanceBeforeDeposit = bankAccount.getBalance();
 
@@ -72,7 +72,7 @@ public class AppTest
 
     @ParameterizedTest
     @ValueSource(ints = {-989,-50,-1})
-    public void depositTestNotPossibleAndThrowsErrorBecauseAmountNegative(int amount){
+    public void depositNotPossibleAndThrowsErrorBecauseAmountNegativeTest(int amount){
 
         assertThrows(IllegalArgumentException.class,()->{
 
@@ -83,7 +83,7 @@ public class AppTest
     }
 
     @Test
-    public void paymentTestWithDifferentsValues(){
+    public void paymentWithDifferentsValuesTest(){
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -104,7 +104,7 @@ public class AppTest
     }
 
     @Test
-    public void paymentTestWithZeroInterest() {
+    public void paymentWithZeroInterestTest() {
         DecimalFormat df = new DecimalFormat("#.##");
 
         double total_amount = 5000;
@@ -121,7 +121,7 @@ public class AppTest
     }
 
     @Test
-    public void pendingTestWithDifferentsValues(){
+    public void pendingWithDifferentsValuesTest(){
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -143,7 +143,7 @@ public class AppTest
     }
 
     @Test
-    public void pendingTestWithMonthZero(){
+    public void pendingWithMonthZeroTest(){
 
 
 
@@ -157,7 +157,7 @@ public class AppTest
 
     }
     @Test
-    public void pendingTestWithZeroInterest() {
+    public void pendingWithZeroInterestTest() {
         DecimalFormat df = new DecimalFormat("#.##");
 
         double total_amount = 5000;
@@ -176,6 +176,64 @@ public class AppTest
 
 
         assertEquals("7083,33", df.format(bankAccount.pending(total_amount, interest,months,aftermonths)));
+    }
+
+
+    @Test
+    public void paymentThrowErrorArgumentNegativeTest(){
+
+        assertThrows(IllegalArgumentException.class,()->{
+
+            bankAccount.payment(-1,1,3);
+
+        });
+        assertThrows(IllegalArgumentException.class,()->{
+
+            bankAccount.payment(1,-1,3);
+
+        });
+        assertThrows(IllegalArgumentException.class,()->{
+
+            bankAccount.payment(1,1,-3);
+
+        });
+
+    }
+
+    @Test
+    public void pendingThrowErrorArgumentNegativeTest(){
+
+        assertThrows(IllegalArgumentException.class,()->{
+
+            bankAccount.pending(-1,1,5,2);
+
+        });
+        assertThrows(IllegalArgumentException.class,()->{
+
+            bankAccount.pending(1,-1,5,2);
+
+        });
+        assertThrows(IllegalArgumentException.class,()->{
+
+            bankAccount.pending(1,1,-3,2);
+
+        });
+        assertThrows(IllegalArgumentException.class,()->{
+
+            bankAccount.pending(1,1,5,-2);
+
+        });
+
+    }
+
+    @Test
+    public void pendingThrowErrorMonthSuperiorToNpaymentTest(){
+
+        assertThrows(IllegalArgumentException.class,()->{
+
+            bankAccount.pending(2,1,6,8);
+
+        });
     }
 
 
